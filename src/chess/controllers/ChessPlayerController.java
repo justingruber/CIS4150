@@ -10,4 +10,9 @@ package chess.controllers;
  */
 public class ChessPlayerController extends ChessController{
     
+    
+    public ChessPlayerController()
+    {
+        
+    }
 }

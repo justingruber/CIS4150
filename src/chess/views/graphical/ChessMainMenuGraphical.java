@@ -8,6 +8,6 @@ package chess.views.graphical;
  *
  * @author justin
  */
-public class VanillaChessGraphical {
+public class ChessMainMenuGraphical {
     
 }
