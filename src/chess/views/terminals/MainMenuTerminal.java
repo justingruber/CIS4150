@@ -4,10 +4,16 @@
  */
 package chess.views.terminals;
 
+import chess.views.MainMenuView;
 /**
  *
  * @author justin
  */
-public class MainMenuTerminal {
+public class MainMenuTerminal extends MainMenuView{
     
+    @Override
+    public void update()
+    {
+        
+    }
 }
