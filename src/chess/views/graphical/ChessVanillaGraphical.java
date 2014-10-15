@@ -10,4 +10,19 @@ package chess.views.graphical;
  */
 public class ChessVanillaGraphical {
     
+    public void VanillaChessGraphical()
+    {
+        
+    }
+    
+    public void update()
+    {
+        
+    }
+    
+    public void printBoard()
+    {
+        
+    }
+    
 }

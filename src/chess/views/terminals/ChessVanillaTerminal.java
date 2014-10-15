@@ -3,11 +3,18 @@
  * and open the template in the editor.
  */
 package chess.views.terminals;
+import chess.views.ChessMainMenuView;
 
 /**
  *
  * @author justin
  */
-public class ChessVanillaTerminal {
+public class ChessVanillaTerminal extends ChessMainMenuView
+{
     
+    @Override
+    public void update()
+    {
+        
+    }
 }

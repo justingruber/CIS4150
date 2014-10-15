@@ -10,4 +10,5 @@ package chess.views;
  */
 public abstract class ChessMainMenuView {
     
+    public abstract void update();
 }
