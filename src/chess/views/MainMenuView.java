@@ -9,5 +9,6 @@ package chess.views;
  * @author justin
  */
 public abstract class MainMenuView {
+    public abstract void update();
     
 }

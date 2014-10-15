@@ -9,5 +9,19 @@ package chess.views.terminals;
  * @author justin
  */
 public class VanillaChessTerminal {
+ 
+    public VanillaChessTerminal()
+    {
+        
+    }
     
+    public void update()
+    {
+        
+    }
+    
+    public void printBoard()
+    {
+        
+    }
 }
