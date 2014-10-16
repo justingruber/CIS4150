@@ -26,8 +26,8 @@ public class ChessGame
     
     private ChessGame()
     {
-        Player1 = new ChessPlayerController();
-        Player2 = new ChessPlayerController();
+        Player1 = new ChessPlayerController(1);
+        Player2 = new ChessPlayerController(2);
     }
     
     public static void StartGame( String[] argv )

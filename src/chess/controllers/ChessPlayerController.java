@@ -11,8 +11,10 @@ package chess.controllers;
 public class ChessPlayerController extends ChessController{
     
     
-    public ChessPlayerController()
-    {
+    public ChessPlayerController(int playerID){
+        
+        super(playerID);
         
     }
+    
 }
