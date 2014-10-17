@@ -10,17 +10,18 @@ import chess.models.ChessState;
  */
 abstract public class ChessController{
     
-    private ChessState state;
+    private ChessState state; //Will the controller receive this from ChessGame?
     private int playerID;
     private boolean myTurn;
     
-    public ChessController(int playerID){
+    public ChessController(int playerID, ChessState state){
         
         this.playerID = playerID;
         if(this.playerID == 1)
             myTurn = true;
         else
             myTurn = false;
+        this.state = state;
         
     }
     
