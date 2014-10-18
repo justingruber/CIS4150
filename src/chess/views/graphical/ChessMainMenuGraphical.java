@@ -26,7 +26,7 @@ public class ChessMainMenuGraphical extends ChessMainMenuView
     
     public void setupBoard()
     {
-        JFrame mainView = new JFrame("Chess Program");
+        JFrame mainView = new JFrame("Chess Program Menu");
         this.setupFrame(mainView, 900,600, new BorderLayout());
         this.initializeComponents(mainView);
     }
@@ -48,7 +48,7 @@ public class ChessMainMenuGraphical extends ChessMainMenuView
         
     }
     
-     private void setupFrame(JFrame frame, int height, int width, LayoutManager layout)
+    private void setupFrame(JFrame frame, int height, int width, LayoutManager layout)
     {
         frame.pack();
         frame.setVisible(true);
