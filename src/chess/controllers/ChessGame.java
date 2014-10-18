@@ -5,6 +5,7 @@
 package chess.controllers;
 import chess.models.*;
 import chess.ChessRules;
+import chess.ChessVanillaRules;
 import java.util.*;
 /**
  *
@@ -23,24 +24,58 @@ public class ChessGame
     /* private static object means only one instance of the object can
     be made, this is the singleton pattern */
     private static ChessGame Game;
-    private ChessRules rules;
+    
+    private ChessRules Rules;
+    private ChessState GameState;
     private ChessController Player1;
     private ChessController Player2;
     private int turnPlayer;
     EndGameResults Winner = null;
     
-    private ChessGame(int ruleNum)
+    private ChessGame(int ruleNum) //throws Exception
     {
-        rules = new ChessRules(ruleNum);
-        Player1 = new ChessPlayerController(1);
-        Player2 = new ChessPlayerController(2);
+        switch( ruleNum )
+        {
+            case(1):
+                Rules = new ChessVanillaRules();
+                break;
+            case(2):
+                //Rules = new ChessGuelphGryphonRules();
+                break;
+            case(3):
+                //Rules = new ChessDunsanyRules();
+                break;
+            default:
+                System.out.println( "An invalid rule set has been selected" );
+                //throw new Exception( "An invalid rule set has been selected" );
+        }
+        GameState = Rules.InitializeGameState();
+        Player1 = new ChessPlayerController(1, GameState);
+        Player2 = new ChessPlayerController(2, GameState);
         turnPlayer = 1;
     }
     
     public static void StartGame( String[] argv )
     {
         int ruleNum = getRuleNum();
-        Game = new ChessGame(ruleNum);
+        
+// Boolean to make sure initialization succeeds
+        boolean bValidInit;
+        /*do
+        {
+            try
+            {*/
+                Game = new ChessGame(ruleNum);
+                bValidInit = true;
+/*            }
+            catch( Exception e )
+            {
+                System.out.printf( "Exception: " + e.getMessage() + "\n" );
+                System.out.printf( "Failed to start game with ruleset %d.\n", ruleNum );
+                bValidInit = false;
+            }
+        } while( !bValidInit ); */
+        
         Game.playGame();
     }
     

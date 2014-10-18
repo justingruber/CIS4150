@@ -10,7 +10,16 @@ package chess.models;
  */
 public abstract class ChessBoard {
  
-    public abstract ChessPiece getPieceAtPosition(int row, int col);
-    public abstract ChessBoard getBoard();
+// The 2D array implies that the board is a rectangle/square variant
+    protected int BoardSize[] = { 0, 0 };
+    protected ChessTile Board[][];
     
+    public abstract ChessPiece getPieceAtPosition( int row, int col );
+    
+    public abstract boolean Move( String Start, String End );
+    
+    public int[] GetBoardSize()
+    {
+        return BoardSize;
+    }
 }

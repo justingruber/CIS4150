@@ -4,10 +4,13 @@
  */
 package chess;
 
+import chess.models.ChessState;
+
 /**
  *
  * @author justin
  */
-public class ChessRules {
-    
+public abstract class ChessRules
+{    
+    public abstract ChessState InitializeGameState();
 }

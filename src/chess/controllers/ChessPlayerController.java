@@ -11,10 +11,12 @@ import java.util.*;
  */
 public class ChessPlayerController extends ChessController{
     
-    public ChessPlayerController(int playerID){
+    private final ChessState GameState;
+    
+    public ChessPlayerController(int playerID, ChessState GameState){
         
         super(playerID);
-        
+        this.GameState = GameState;
     }
     
     public void getMove(){
@@ -47,8 +49,7 @@ public class ChessPlayerController extends ChessController{
         }
         
         //This method will be in the state.
-        ChessState.sendMove(start, end);
-        
+        GameState.Move( start, end );
     }
     
 }

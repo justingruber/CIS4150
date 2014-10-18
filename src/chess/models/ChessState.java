@@ -8,6 +8,23 @@ package chess.models;
  *
  * @author justin
  */
-public abstract class ChessState {
+public class ChessState {
     
+    ChessBoard Board;
+    
+    public enum PieceOwner
+    {
+        White,
+        Black
+    }
+    
+    public ChessState( ChessBoard Board )
+    {
+        this.Board = Board;
+    }
+    
+    public boolean Move( String Start, String End )
+    {
+        return Board.Move( Start, End );
+    }
 }
