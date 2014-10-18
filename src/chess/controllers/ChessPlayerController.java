@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package chess.controllers;
-import chess.models.ChessState;
+import chess.models.*;
 import java.util.*;
 /**
  *
@@ -11,9 +11,9 @@ import java.util.*;
  */
 public class ChessPlayerController extends ChessController{
     
-    public ChessPlayerController(int playerID, ChessState state){
+    public ChessPlayerController(int playerID){
         
-        super(playerID, state);
+        super(playerID);
         
     }
     
@@ -47,7 +47,7 @@ public class ChessPlayerController extends ChessController{
         }
         
         //This method will be in the state.
-        getState().sendMove(start, end);
+        ChessState.sendMove(start, end);
         
     }
     
