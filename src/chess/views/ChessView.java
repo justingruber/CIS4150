@@ -4,10 +4,14 @@
  */
 package chess.views;
 
+import chess.models.ChessState;
+
 /**
  *
  * @author justin
  */
 public abstract class ChessView {
     
+    public abstract void update(ChessState state, int playerID);
+
 }
