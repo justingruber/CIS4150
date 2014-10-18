@@ -9,5 +9,8 @@ package chess.models;
  * @author justin
  */
 public abstract class ChessBoard {
+ 
+    public abstract ChessPiece getPieceAtPosition(int row, int col);
+    public abstract ChessBoard getBoard();
     
 }

@@ -4,11 +4,14 @@
  */
 package chess.views;
 
+import java.util.Observable;
+
 /**
  *
  * @author justin
  */
-public abstract class ChessMainMenuView {
+public abstract class ChessMainMenuView extends Observable{
     
     public abstract void update();
+    public abstract void displayMessage (String message);
 }
