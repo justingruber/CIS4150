@@ -5,6 +5,7 @@
 package chess;
 
 import chess.models.ChessState;
+import chess.views.ChessView;
 
 /**
  *
@@ -12,5 +13,5 @@ import chess.models.ChessState;
  */
 public abstract class ChessRules
 {    
-    public abstract ChessState InitializeGameState();
+    public abstract ChessState InitializeGameState( ChessView Display );
 }

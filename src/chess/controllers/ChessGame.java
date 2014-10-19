@@ -6,6 +6,9 @@ package chess.controllers;
 import chess.models.*;
 import chess.ChessRules;
 import chess.ChessVanillaRules;
+import chess.views.ChessView;
+import chess.views.graphical.*;
+import chess.views.terminals.*;
 import java.util.*;
 /**
  *
@@ -21,6 +24,12 @@ public class ChessGame
         DNF //Did Not Finish OR No Contest
     }
     
+    public static enum DisplayState
+    {
+        Graphical,
+        Terminal
+    }
+    
     /* private static object means only one instance of the object can
     be made, this is the singleton pattern */
     private static ChessGame Game;
@@ -29,10 +38,11 @@ public class ChessGame
     private ChessState GameState;
     private ChessController Player1;
     private ChessController Player2;
+    private ChessView Display;
     private int turnPlayer;
     EndGameResults Winner = null;
     
-    private ChessGame(int ruleNum) //throws Exception
+    private ChessGame(int ruleNum, DisplayState ViewState ) throws Exception
     {
         switch( ruleNum )
         {
@@ -47,9 +57,17 @@ public class ChessGame
                 break;
             default:
                 System.out.println( "An invalid rule set has been selected" );
-                //throw new Exception( "An invalid rule set has been selected" );
+                throw new Exception( "An invalid rule set has been selected" );
         }
-        GameState = Rules.InitializeGameState();
+        if( ViewState == DisplayState.Graphical )
+        {
+            Display = new ChessVanillaGraphical();
+        }
+        else
+        {
+            Display = new ChessVanillaTerminal();
+        }
+        GameState = Rules.InitializeGameState( Display );
         Player1 = new ChessPlayerController(1, GameState);
         Player2 = new ChessPlayerController(2, GameState);
         turnPlayer = 1;
@@ -61,20 +79,20 @@ public class ChessGame
         
 // Boolean to make sure initialization succeeds
         boolean bValidInit;
-        /*do
+        do
         {
             try
-            {*/
-                Game = new ChessGame(ruleNum);
+            {
+                Game = new ChessGame( ruleNum, DisplayState.Terminal );
                 bValidInit = true;
-/*            }
+            }
             catch( Exception e )
             {
                 System.out.printf( "Exception: " + e.getMessage() + "\n" );
                 System.out.printf( "Failed to start game with ruleset %d.\n", ruleNum );
                 bValidInit = false;
             }
-        } while( !bValidInit ); */
+        } while( !bValidInit ); 
         
         Game.playGame();
     }

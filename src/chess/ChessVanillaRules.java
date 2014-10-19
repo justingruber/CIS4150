@@ -7,6 +7,7 @@ package chess;
 
 import chess.controllers.ChessGame;
 import chess.models.*;
+import chess.views.ChessView;
 
 /**
  *
@@ -14,11 +15,15 @@ import chess.models.*;
  */
 public class ChessVanillaRules extends ChessRules 
 {
+    private final static String Path = "views\\graphical\\Images\\";
+    
     private class ChessPawnPiece extends ChessPiece
     {
         private ChessPawnPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Pawn";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "Pawn.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -100,6 +105,8 @@ public class ChessVanillaRules extends ChessRules
         private ChessRookPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Rook";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "Rook.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -157,6 +164,8 @@ public class ChessVanillaRules extends ChessRules
         private ChessKnightPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Knight";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "Knight.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -215,6 +224,8 @@ public class ChessVanillaRules extends ChessRules
         private ChessBishopPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Bishop";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "Bishop.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -269,6 +280,8 @@ public class ChessVanillaRules extends ChessRules
         private ChessQueenPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Queen";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "Queen.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -329,6 +342,8 @@ public class ChessVanillaRules extends ChessRules
         private ChessKingPiece( ChessState.PieceOwner Owner ) {
             this.Name = "King";
             this.Owner = Owner;
+            this.ImagePath = Path;
+            this.ImageFile = "King.png";
             this.Movement = new ChessMovement()
             {
                 @Override
@@ -531,10 +546,10 @@ public class ChessVanillaRules extends ChessRules
     }
     
     @Override
-    public ChessState InitializeGameState()
+    public ChessState InitializeGameState( ChessView Display )
     {
         ChessBoard Board = new ChessVanillaBoard();
-        ChessState State = new ChessState( Board );
+        ChessState State = new ChessState( Display, Board );
         return State;
     }
     

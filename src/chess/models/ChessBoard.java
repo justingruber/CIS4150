@@ -14,7 +14,7 @@ public abstract class ChessBoard {
     protected int BoardSize[] = { 0, 0 };
     protected ChessTile Board[][];
     
-    public abstract ChessPiece getPieceAtPosition( int row, int col );
+    public abstract ChessPiece getPieceAtPosition( int X, int Y );
     
     public abstract boolean Move( String Start, String End );
     

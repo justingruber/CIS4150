@@ -49,7 +49,7 @@ public class ChessPlayerController extends ChessController{
         }
         
         //This method will be in the state.
-        GameState.Move( start, end );
+        GameState.Move( getPlayerID(), start, end );
     }
     
 }
