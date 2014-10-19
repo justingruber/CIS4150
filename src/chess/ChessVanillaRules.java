@@ -550,6 +550,7 @@ public class ChessVanillaRules extends ChessRules
     {
         ChessBoard Board = new ChessVanillaBoard();
         ChessState State = new ChessState( Display, Board );
+        Display.update( Board, 1 );
         return State;
     }
     
