@@ -75,59 +75,67 @@ public class ChessGame
     
     public static void StartGame( String[] argv )
     {
-        int ruleNum = getRuleNum();
         
-// Boolean to make sure initialization succeeds
-        boolean bValidInit;
-        do
-        {
-            try
-            {
-                Game = new ChessGame( ruleNum, DisplayState.Terminal );
-                bValidInit = true;
-            }
-            catch( Exception e )
-            {
-                System.out.printf( "Exception: " + e.getMessage() + "\n" );
-                System.out.printf( "Failed to start game with ruleset %d.\n", ruleNum );
-                bValidInit = false;
-            }
-        } while( !bValidInit ); 
+        ChessMainMenuTerminal Menu = new ChessMainMenuTerminal();
+        int option = 0;
+        int ruleNum = 0;
         
-        Game.playGame();
+        option = getNumber(Menu, 2);
+        if(option == 1){
+            
+            Menu.setState(ChessMainMenuTerminal.State.PLAY);
+            ruleNum = getNumber(Menu, 3);
+        
+            // Boolean to make sure initialization succeeds
+            boolean bValidInit;
+            do
+            {
+                try
+                {
+                    Game = new ChessGame( ruleNum, DisplayState.Terminal );
+                    bValidInit = true;
+                }
+                catch( Exception e )
+                {
+                    System.out.printf( "Exception: " + e.getMessage() + "\n" );
+                    System.out.printf( "Failed to start game with ruleset %d.\n", ruleNum );
+                    bValidInit = false;
+                }
+            } while( !bValidInit );
+        
+            Game.playGame();
+        
+        }else
+            System.out.println("Goodbye.");
+        
     }
     
-    public static int getRuleNum(){
+    public static int getNumber(ChessMainMenuTerminal Menu, int maxNum){
         
-        int ruleNum = 0;
+        int num = 0;
         Scanner scan = new Scanner(System.in);
         
         //Leave this commented until we implement other rules.
-        /*while(ruleNum < 1 || ruleNum > 3){
+        while(num < 1 || num > maxNum){
             
-            ruleNum = 0;
-            System.out.println("1. Vanilla Chess");
-            System.out.println("2. Dunsany's Chess");
-            System.out.println("3. Guelph Gryphon Chess");
-            System.out.println("Please enter the number correspoding to the version of chess you'd like to play:");
-            
+            num = 0;
             try{
             
-                ruleNum = scan.nextInt();
-                if(ruleNum < 1 || ruleNum > 3)
-                    System.out.println("The number must be between 1 and 3");
+                Menu.update();
+                num = scan.nextInt();
+                if(num < 1 || num > maxNum)
+                    Menu.displayMessage("The number must be between 1 and 3");
             
             }catch(Exception e){
                 
-                System.out.println("You must enter a whole number");
+                Menu.displayMessage("You must enter a whole number");
                 scan.next();
                 
             }
         
-        }*/
-        ruleNum = 1;
+        }
         
-        return ruleNum;
+        return num;
         
     }
     
@@ -135,6 +143,7 @@ public class ChessGame
         
         ChessPlayerController Player;
         boolean gameOver = false;
+        String input = "";
         
         while(!gameOver){
             
@@ -143,19 +152,17 @@ public class ChessGame
             else
                 Player = (ChessPlayerController)Player2;
             
-            Player.getMove();
+            input = Player.getMove(Display, turnPlayer);
             
-            if(Winner != null)
+            if(Winner != null || input.equalsIgnoreCase("q"))
                 gameOver = true;
             
         }
         
-        ChessGame.EndGame(Winner);
-        
     }
     
     public static void EndGame( EndGameResults Winner )
-    {
+    {       
         if( Winner == EndGameResults.Player1 || Winner == EndGameResults.Player2 )
         {
             System.out.println("Congratulations " + Winner + "!");
@@ -164,6 +171,8 @@ public class ChessGame
         {
             System.out.println("Nobody wins this time!");
         }
+        
+        getGame().Winner = Winner;
     }
     
     public static ChessGame getGame(){
@@ -184,25 +193,10 @@ public class ChessGame
         
     }
     
-    public void endOfTurn(int playerID, boolean isValidMove, int gameResult){
+    public void endOfTurn(int playerID, boolean isValidMove){
         
-        if(gameResult == 0){
-            
-            if(isValidMove)
-                turnPlayer = (playerID % 2) + 1;
-            
-        }else{
-            
-            if(gameResult == 1)
-                Winner = EndGameResults.Player1;
-            else if(gameResult == 2)
-                Winner = EndGameResults.Player2;
-            else if(gameResult == 3)
-                Winner = EndGameResults.Tie;
-            else
-                Winner = EndGameResults.DNF;
-            
-        }
+        if(isValidMove)
+            turnPlayer = (playerID % 2) + 1;
         
     }
     

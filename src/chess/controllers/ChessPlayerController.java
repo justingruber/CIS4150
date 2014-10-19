@@ -4,6 +4,8 @@
  */
 package chess.controllers;
 import chess.models.*;
+import chess.views.ChessView;
+import chess.views.terminals.*;
 import java.util.*;
 /**
  *
@@ -19,7 +21,7 @@ public class ChessPlayerController extends ChessController{
         this.GameState = GameState;
     }
     
-    public void getMove(){
+    public String getMove(ChessView Display, int playerID){
         
         Scanner scan = new Scanner(System.in);
         Scanner parse;
@@ -28,8 +30,7 @@ public class ChessPlayerController extends ChessController{
         String end = "";
         boolean valid = false;
         
-        System.out.println("Input must be of the form 'a b' where 'a' is the starting space and 'b' is the ending space.");
-        System.out.println("Ex. a1 c2");
+        Display.update(GameState, playerID);
         //This will take the input and parse it so the model will be able to use it as is.
         while(!valid){
             
@@ -37,9 +38,13 @@ public class ChessPlayerController extends ChessController{
             
                 System.out.println("Please enter your move:");
                 input = scan.nextLine();
-                parse = new Scanner(input).useDelimiter("\\s");
-                start = parse.next();
-                end = parse.next();
+                if(!input.equalsIgnoreCase("q")){
+                    
+                    parse = new Scanner(input).useDelimiter("\\s");
+                    start = parse.next();
+                    end = parse.next();
+                
+                }
                 valid = true;
         
             }catch(Exception e){
@@ -48,8 +53,13 @@ public class ChessPlayerController extends ChessController{
             
         }
         
-        //This method will be in the state.
-        GameState.Move( getPlayerID(), start, end );
+        if(!input.equalsIgnoreCase("q"))
+            GameState.Move( getPlayerID(), start, end );
+        else
+            System.out.println("Goodbye.");
+        
+        return input;
+        
     }
     
 }

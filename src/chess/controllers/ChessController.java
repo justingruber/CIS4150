@@ -30,9 +30,9 @@ abstract public class ChessController{
         
     }
     
-    public void turnResult(boolean isValidMove, int gameResult){
+    public void turnResult(boolean isValidMove){
         
-        ChessGame.getGame().endOfTurn(playerID, isValidMove, gameResult);
+        ChessGame.getGame().endOfTurn(playerID, isValidMove);
         
     }
     
