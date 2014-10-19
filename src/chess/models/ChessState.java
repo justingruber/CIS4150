@@ -32,7 +32,7 @@ public class ChessState {
         boolean bValidMove = Board.Move( Start, End );
         if( bValidMove )
         {
-            Display.update( this.Board, PlayerID );
+            Display.update( this.Board, ((PlayerID % 2) + 1) );
         }
         return bValidMove;
     }

@@ -57,6 +57,8 @@ public class ChessPlayerController extends ChessController{
             
             if(!GameState.Move( getPlayerID(), start, end ))
                 System.out.println("Invalid move.");
+            else
+                ChessGame.getGame().endOfTurn(getPlayerID());
             
         } else
             System.out.println("Goodbye.");

@@ -193,10 +193,9 @@ public class ChessGame
         
     }
     
-    public void endOfTurn(int playerID, boolean isValidMove){
+    public void endOfTurn(int playerID){
         
-        if(isValidMove)
-            turnPlayer = (playerID % 2) + 1;
+        turnPlayer = (playerID % 2) + 1;
         
     }
     
