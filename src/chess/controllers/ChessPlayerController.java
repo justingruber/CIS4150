@@ -30,7 +30,7 @@ public class ChessPlayerController extends ChessController{
         String end = "";
         boolean valid = false;
         
-        Display.update(GameState, playerID);
+        Display.update(GameState.Board, playerID);
         //This will take the input and parse it so the model will be able to use it as is.
         while(!valid){
             

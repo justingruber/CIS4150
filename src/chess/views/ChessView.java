@@ -16,7 +16,7 @@ public abstract class ChessView extends Observable{
     
     private ChessBoard board;
     
-    public abstract void update(ChessState state, int playerID);
+    public abstract void update(ChessBoard board, int playerID);
    
     public ChessBoard getBoard(){
         return board;

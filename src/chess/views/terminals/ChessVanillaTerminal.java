@@ -6,6 +6,7 @@ package chess.views.terminals;
 import chess.views.ChessView;
 import chess.models.ChessState;
 import chess.models.ChessPiece;
+import chess.ChessVanillaRules;
 import chess.models.ChessBoard;
 
 /**
@@ -14,9 +15,12 @@ import chess.models.ChessBoard;
  */
 public class ChessVanillaTerminal extends ChessView
 {  
+    public ChessBoard currBoard;
+    
     @Override
-    public void update(ChessState state, int playerID)
+    public void update(ChessBoard board, int playerID)
     {
+        currBoard = board;
         //Once I see the possible states, I will wrap this statement
         printBoard();
         System.out.println("Is is currently player " + playerID + "'s turn.");
@@ -42,13 +46,13 @@ public class ChessVanillaTerminal extends ChessView
         System.out.println();
         System.out.println(" " + String.valueOf(ChessVanillaTerminal.TOP_LEFT) + repeatChar (ChessVanillaTerminal.HORIZONTAL, 23) + String.valueOf (ChessVanillaTerminal.TOP_RIGHT));
         
-        ChessBoard board = this.getBoard ();
+        ChessBoard board = currBoard;
         
-        for (int j = 1; j <= 8; j++) {
+        for (int j = 0; j < 8; j++) {
             System.out.print (j + String.valueOf (ChessVanillaTerminal.VERTICAL));
             
-            for (int i = 1; i <= 8; i++) {
-                ChessPiece piece = board.getPieceAtPosition (i, j);
+            for (int i = 0; i < 8; i++) {
+                ChessPiece piece = board.getPieceAtPosition (j, i);
                 //ChessPiece piece = null;
                 String color = " ";
                 String pieceChar = " ";
