@@ -525,7 +525,7 @@ public class ChessVanillaRules extends ChessRules
             {
                 ChessPiece TargetPiece = Board[EndPosition[0]][EndPosition[1]].GetHeldPiece();
                 boolean bValidMove = Board[StartPosition[0]][StartPosition[1]].Move( Board[EndPosition[0]][EndPosition[1]] );
-                if( bValidMove && TargetPiece.GetName().equals( "King" ) )
+                if( bValidMove && TargetPiece != null && TargetPiece.GetName().equals( "King" ) )
                 {
                     if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
                     {
