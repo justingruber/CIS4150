@@ -34,7 +34,7 @@ public class ChessVanillaTerminal extends ChessView
         System.out.println();
     }
     
-    private void printBoard()
+    public void printBoard()
     {
         String abc = "ABCDEFGH";
         System.out.print(" " + String.valueOf(ChessVanillaTerminal.VERTICAL));
@@ -48,12 +48,13 @@ public class ChessVanillaTerminal extends ChessView
         
         ChessBoard board = currBoard;
         
-        for (int j = 0; j < 8; j++) {
-            System.out.print (j + String.valueOf (ChessVanillaTerminal.VERTICAL));
+        for (int i = 0; i < 8; i++) {
+            System.out.print (i + String.valueOf (ChessVanillaTerminal.VERTICAL));
             
-            for (int i = 0; i < 8; i++) {
-                ChessPiece piece = board.getPieceAtPosition (j, i);
-                //ChessPiece piece = null;
+            for (int j = 0; j < 8; j++) {
+                //System.out.print(i + "," + j);
+                
+                ChessPiece piece = board.getPieceAtPosition (i, j);
                 String color = " ";
                 String pieceChar = " ";
                 
@@ -83,7 +84,7 @@ public class ChessVanillaTerminal extends ChessView
                 System.out.print(color + pieceChar + String.valueOf(ChessVanillaTerminal.VERTICAL));
             }
             
-            System.out.print(j);
+            System.out.print(i);
             System.out.println();
         }
         

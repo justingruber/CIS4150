@@ -29,13 +29,16 @@ public class ChessPlayerController extends ChessController{
         String start = "";
         String end = "";
         boolean valid = false;
+        ChessVanillaTerminal t = new ChessVanillaTerminal();
         
-        Display.update(GameState.Board, playerID);
+        //Display.update(GameState.Board, playerID);
         //This will take the input and parse it so the model will be able to use it as is.
+        
         while(!valid){
             
             try{
-            
+                
+                
                 System.out.println("Please enter your move:");
                 input = scan.nextLine();
                 if(!input.equalsIgnoreCase("q")){
@@ -53,9 +56,10 @@ public class ChessPlayerController extends ChessController{
             
         }
         
-        if(!input.equalsIgnoreCase("q"))
+        if(!input.equalsIgnoreCase("q")){
             GameState.Move( getPlayerID(), start, end );
-        else
+            t.printBoard();
+        } else
             System.out.println("Goodbye.");
         
         return input;
