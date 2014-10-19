@@ -22,8 +22,9 @@ public class ChessMainMenuTerminal extends ChessMainMenuView
             System.out.println("*---------------------------*");
             System.out.println("|        Yay Chess!         |");
             System.out.println("*---------------------------*");
-            System.out.println("Play");
-            System.out.println("Quit");
+            System.out.println("(1)Play");
+            System.out.println("(2)Quit");
+            System.out.println("Enter the number of your choice from the list above:");
         } else if (state == State.PLAY) {
             int i = 1;
             System.out.println("Which variant do you want to play?");

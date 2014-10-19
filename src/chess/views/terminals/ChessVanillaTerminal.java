@@ -18,6 +18,7 @@ public class ChessVanillaTerminal extends ChessView
     public void update(ChessState state, int playerID)
     {
         //Once I see the possible states, I will wrap this statement
+        printBoard();
         System.out.println("Is is currently player " + playerID + "'s turn.");
         System.out.println("What would you like to do?");
     }
@@ -47,31 +48,32 @@ public class ChessVanillaTerminal extends ChessView
             System.out.print (j + String.valueOf (ChessVanillaTerminal.VERTICAL));
             
             for (int i = 1; i <= 8; i++) {
-                //ChessPiece piece = board.getPieceAtPosition (i, j);
-                ChessPiece piece = null;
+                ChessPiece piece = board.getPieceAtPosition (i, j);
+                //ChessPiece piece = null;
                 String color = " ";
                 String pieceChar = " ";
                 
                 
                 //Will change this section based off of how the ChessPiece class is done
                 if (piece != null) {
-//                    color = (piece.getChessPieceColour () == ChessPiece.Colours.BLACK) ? "B" : "W";
-//                    pieceChar = " ";
-//                    ChessPiece.ChessPieces name = piece.getChessPieceName ();
-//                    
-//                    if (name == ChessPiece.ChessPieces.KING) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.KING);
-//                    } else if (name == ChessPiece.ChessPieces.QUEEN) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.QUEEN);
-//                    } else if (name == ChessPiece.ChessPieces.ROOK) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.ROOK);
-//                    } else if (name == ChessPiece.ChessPieces.BISHOP) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.BISHOP);
-//                    } else if (name == ChessPiece.ChessPieces.KNIGHT) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.KNIGHT);
-//                    } else if (name == ChessPiece.ChessPieces.PAWN) {
-//                        pieceChar = String.valueOf (ChessVanillaTerminal.PAWN);
-//                    }
+                    color = (piece.GetOwner() == ChessState.PieceOwner.Black) ? "B" : "W";
+                    pieceChar = " ";
+                    
+                    String name = piece.GetName();
+                    
+                    if (name == "King") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.KING);
+                    } else if (name == "Queen") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.QUEEN);
+                    } else if (name == "Rook") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.ROOK);
+                    } else if (name == "Bishop") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.BISHOP);
+                    } else if (name == "Knight") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.KNIGHT);
+                    } else if (name == "Pawn") {
+                        pieceChar = String.valueOf (ChessVanillaTerminal.PAWN);
+                    }
                 }
                 
                 System.out.print(color + pieceChar + String.valueOf(ChessVanillaTerminal.VERTICAL));

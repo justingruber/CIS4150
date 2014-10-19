@@ -18,17 +18,45 @@ import java.util.ArrayList;
  */
 public class ChessMainMenuGraphical extends ChessMainMenuView 
 {
-    //Test entrence to program for gui testing only
-//    public static void main (String [] args){
-//        ChessMainMenuGraphical g = new ChessMainMenuGraphical();
-//        g.setupBoard();
-//    }
     
-    public void setupBoard()
+    private JMenuItem quit;
+    
+    public ChessMainMenuGraphical()
     {
-        JFrame mainView = new JFrame("Chess Program Menu");
-        this.setupFrame(mainView, 900,600, new BorderLayout());
-        this.initializeComponents(mainView);
+        
+        JFrame frame = new JFrame("Chess");
+        frame.setLayout(null);
+        
+        JMenuBar menuBar = new JMenuBar ();
+        frame.setJMenuBar(menuBar);
+        
+        JMenu fileMenu = new JMenu ("File");
+        fileMenu.setMnemonic ('F');
+        menuBar.add (fileMenu);
+        
+        fileMenu.add (quit = new JMenuItem ("Quit"));
+        quit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
+        
+        
+        final Board b = new Board();
+        b.setLocation (0,50);
+        b.setSize (550, 550);
+        frame.add (b);
+        
+        
+        quit.addActionListener (new ActionListener ()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                 System.exit (0);
+            }
+        }
+        );
+        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable (false);
+        frame.setSize (550,750);
+        frame.setVisible (true);
     }
     
     @Override
@@ -41,19 +69,5 @@ public class ChessMainMenuGraphical extends ChessMainMenuView
     public void displayMessage(String Message)
     {
         
-    }
-    
-    private void initializeComponents(JFrame frame)
-    {
-        
-    }
-    
-    private void setupFrame(JFrame frame, int height, int width, LayoutManager layout)
-    {
-        frame.pack();
-        frame.setVisible(true);
-        frame.setSize(height, width);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(layout);   
     }
 }
