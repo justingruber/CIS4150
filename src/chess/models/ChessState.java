@@ -4,6 +4,7 @@
  */
 package chess.models;
 
+import chess.controllers.ChessGame;
 import chess.views.ChessView;
 
 /**
@@ -14,6 +15,7 @@ public class ChessState {
     
     private final ChessBoard Board;
     private final ChessView Display;
+    public static int GameOver = -1;
     
     public enum PieceOwner
     {
@@ -30,7 +32,7 @@ public class ChessState {
     public boolean Move( int PlayerID, String Start, String End )
     {
         boolean bValidMove = Board.Move( PlayerID, Start, End );
-        if( bValidMove )
+        if( bValidMove && GameOver == -1)
         {
             Display.update( this.Board, ((PlayerID % 2) + 1) );
         }

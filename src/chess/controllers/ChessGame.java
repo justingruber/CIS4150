@@ -171,7 +171,7 @@ public class ChessGame
         {
             System.out.println("Nobody wins this time!");
         }
-        
+        ChessState.GameOver = 1;
         getGame().Winner = Winner;
     }
     
@@ -196,6 +196,12 @@ public class ChessGame
     public void endOfTurn(int playerID){
         
         turnPlayer = (playerID % 2) + 1;
+        
+    }
+    
+    public EndGameResults getWinner(){
+        
+        return Winner;
         
     }
     

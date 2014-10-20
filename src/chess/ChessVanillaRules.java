@@ -502,7 +502,7 @@ public class ChessVanillaRules extends ChessRules
                 }
                 Position[1] = Integer.parseInt( ToParse.substring( 1 ) );
 
-                System.out.printf("%s: %d %d\n", ToParse, Position[0], Position[1]);
+                //System.out.printf("%s: %d %d\n", ToParse, Position[0], Position[1]);
                 return Position;
             
             }
