@@ -22,8 +22,6 @@ public class ChessDunsanyRules extends ChessRules
 
     private class ChessDunsanyBoard extends ChessBoard
     {
-        private ArrayList<ChessPiece> WhitePieces;
-        
         private ChessDunsanyBoard()
         {
             this.BoardSize[0] = 8;
@@ -47,21 +45,21 @@ public class ChessDunsanyRules extends ChessRules
                         {
                             case( 0 ):
                             case( 7 ):
-                                Piece = new ChessVanillaPieces.ChessRookPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaRookPiece( Owner );
                                 break;
                             case( 1 ):
                             case( 6 ):
-                                Piece = new ChessVanillaPieces.ChessKnightPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaKnightPiece( Owner );
                                 break;
                             case( 2 ):
                             case( 5 ):
-                                Piece = new ChessVanillaPieces.ChessBishopPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaBishopPiece( Owner );
                                 break;
                             case( 3 ):
-                                Piece = new ChessVanillaPieces.ChessQueenPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaQueenPiece( Owner );
                                 break;
                             case( 4 ):
-                                Piece = new ChessVanillaPieces.ChessKingPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaKingPiece( Owner );
                                 break;
                         }
                     }
@@ -77,8 +75,11 @@ public class ChessDunsanyRules extends ChessRules
                             Owner = ChessState.PieceOwner.White;
                         }
                         
-                        Piece = new ChessVanillaPieces.ChessPawnPiece( Owner );
-                        WhitePieces.add( Piece );
+                        Piece = new ChessVanillaPieces.ChessVanillaPawnPiece( Owner );
+                        if( Owner == ChessState.PieceOwner.White )
+                        {
+                            WhitePieces.add( Piece );
+                        }
                     }
                     
                     this.Board[i][j] = new ChessTile( i, j, this, Piece );
@@ -144,18 +145,19 @@ public class ChessDunsanyRules extends ChessRules
                 ChessTile StartTile = Board[StartPosition[0]][StartPosition[1]];         
                 ChessTile EndTile = Board[EndPosition[0]][EndPosition[1]];
                 
-                ChessPiece TargetPiece = StartTile.GetHeldPiece();
+                ChessPiece TargetPiece = EndTile.GetHeldPiece();
                 
                 boolean bValidMove = StartTile.Move( PlayerId, EndTile );
-                
-                if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
-                {
-                    WhitePieces.remove( TargetPiece );
-                }
-                
-                // Check end game conditions
+
                 if( bValidMove && TargetPiece != null )
                 {
+                    // Remove white pieces from list
+                    if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
+                    {
+                        WhitePieces.remove( TargetPiece );
+                    }
+                    
+                    // Check end game conditions
                     if( TargetPiece.GetName().equals( "King" ) && TargetPiece.GetOwner() == ChessState.PieceOwner.Black )
                     {
                         ChessGame.EndGame( ChessGame.EndGameResults.Player2 );

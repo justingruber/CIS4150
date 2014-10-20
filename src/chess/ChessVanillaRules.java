@@ -8,6 +8,7 @@ package chess;
 import chess.controllers.ChessGame;
 import chess.models.*;
 import chess.views.ChessView;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,6 +23,9 @@ public class ChessVanillaRules extends ChessRules
         {
             this.BoardSize[0] = 8;
             this.BoardSize[1] = 8;
+            
+            WhitePieces = new ArrayList<>();
+            BlackPieces = new ArrayList<>();
             
             this.Board = new ChessTile[ BoardSize[0] ][ BoardSize [1] ];
         
@@ -47,21 +51,21 @@ public class ChessVanillaRules extends ChessRules
                         {
                             case( 0 ):
                             case( 7 ):
-                                Piece = new ChessVanillaPieces.ChessRookPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaRookPiece( Owner );
                                 break;
                             case( 1 ):
                             case( 6 ):
-                                Piece = new ChessVanillaPieces.ChessKnightPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaKnightPiece( Owner );
                                 break;
                             case( 2 ):
                             case( 5 ):
-                                Piece = new ChessVanillaPieces.ChessBishopPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaBishopPiece( Owner );
                                 break;
                             case( 3 ):
-                                Piece = new ChessVanillaPieces.ChessQueenPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaQueenPiece( Owner );
                                 break;
                             case( 4 ):
-                                Piece = new ChessVanillaPieces.ChessKingPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessVanillaKingPiece( Owner );
                                 break;
                         }
                     }
@@ -77,7 +81,7 @@ public class ChessVanillaRules extends ChessRules
                             Owner = ChessState.PieceOwner.Black;
                         }
                         
-                        Piece = new ChessVanillaPieces.ChessPawnPiece( Owner );
+                        Piece = new ChessVanillaPieces.ChessVanillaPawnPiece( Owner );
                     }
                     
                     this.Board[i][j] = new ChessTile( i, j, this, Piece );
@@ -143,7 +147,7 @@ public class ChessVanillaRules extends ChessRules
                 ChessTile StartTile = Board[StartPosition[0]][StartPosition[1]];         
                 ChessTile EndTile = Board[EndPosition[0]][EndPosition[1]];
                 
-                ChessPiece TargetPiece = StartTile.GetHeldPiece();
+                ChessPiece TargetPiece = EndTile.GetHeldPiece();
                 
                 boolean bValidMove = StartTile.Move( PlayerId, EndTile );
                 

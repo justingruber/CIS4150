@@ -7,6 +7,7 @@ import chess.models.*;
 import chess.ChessRules;
 import chess.ChessVanillaRules;
 import chess.ChessDunsanyRules;
+import chess.ChessGuelphGryphonRules;
 import chess.views.ChessView;
 import chess.views.graphical.*;
 import chess.views.terminals.*;
@@ -51,7 +52,7 @@ public class ChessGame
                 Rules = new ChessVanillaRules();
                 break;
             case(2):
-                //Rules = new ChessGuelphGryphonRules();
+                Rules = new ChessGuelphGryphonRules();
                 break;
             case(3):
                 Rules = new ChessDunsanyRules();

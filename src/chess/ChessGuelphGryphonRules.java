@@ -11,6 +11,7 @@ import chess.models.ChessPiece;
 import chess.models.ChessState;
 import chess.models.ChessTile;
 import chess.views.ChessView;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,12 +20,15 @@ import chess.views.ChessView;
 public class ChessGuelphGryphonRules extends ChessRules
 {
 
-    private class ChessVanillaBoard extends ChessBoard
+private class ChessGuelphGryphonBoard extends ChessBoard
     {
-        private ChessVanillaBoard()
+        private ChessGuelphGryphonBoard()
         {
             this.BoardSize[0] = 8;
             this.BoardSize[1] = 8;
+            
+            WhitePieces = new ArrayList<>();
+            BlackPieces = new ArrayList<>();
             
             this.Board = new ChessTile[ BoardSize[0] ][ BoardSize [1] ];
         
@@ -33,10 +37,10 @@ public class ChessGuelphGryphonRules extends ChessRules
                 for( int j = 0; j < BoardSize[1]; j++ )
                 {
                     ChessPiece Piece = null;
+                    ChessState.PieceOwner Owner = ChessState.PieceOwner.White;
                     
                     if( j == 0 || j == 7)
                     {
-                        ChessState.PieceOwner Owner;
                         if( j == 0 )
                         {
                             Owner = ChessState.PieceOwner.White;
@@ -50,27 +54,26 @@ public class ChessGuelphGryphonRules extends ChessRules
                         {
                             case( 0 ):
                             case( 7 ):
-                                Piece = new ChessVanillaPieces.ChessRookPiece( Owner );
+                                Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonRookPiece( Owner );
                                 break;
                             case( 1 ):
                             case( 6 ):
-                                Piece = new ChessVanillaPieces.ChessKnightPiece( Owner );
+                                Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonKnightPiece( Owner );
                                 break;
                             case( 2 ):
                             case( 5 ):
-                                Piece = new ChessVanillaPieces.ChessBishopPiece( Owner );
+                                Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonBishopPiece( Owner );
                                 break;
                             case( 3 ):
-                                Piece = new ChessVanillaPieces.ChessQueenPiece( Owner );
+                                Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonQueenPiece( Owner );
                                 break;
                             case( 4 ):
-                                Piece = new ChessVanillaPieces.ChessKingPiece( Owner );
+                                Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonKingPiece( Owner );
                                 break;
                         }
                     }
                     else if( j == 1 || j == 6 )
                     {
-                        ChessState.PieceOwner Owner;
                         if( j == 1 )
                         {
                             Owner = ChessState.PieceOwner.White;
@@ -80,7 +83,19 @@ public class ChessGuelphGryphonRules extends ChessRules
                             Owner = ChessState.PieceOwner.Black;
                         }
                         
-                        Piece = new ChessVanillaPieces.ChessPawnPiece( Owner );
+                        Piece = new ChessGuelphGryphonPieces.ChessGuelphGryphonPawnPiece( Owner );
+                    }
+                    
+                    if( Piece != null )
+                    {
+                        if( Owner == ChessState.PieceOwner.Black )
+                        {
+                            BlackPieces.add( Piece );
+                        }
+                        else
+                        {
+                            WhitePieces.add( Piece );
+                        }
                     }
                     
                     this.Board[i][j] = new ChessTile( i, j, this, Piece );
@@ -146,23 +161,63 @@ public class ChessGuelphGryphonRules extends ChessRules
                 ChessTile StartTile = Board[StartPosition[0]][StartPosition[1]];         
                 ChessTile EndTile = Board[EndPosition[0]][EndPosition[1]];
                 
-                ChessPiece TargetPiece = StartTile.GetHeldPiece();
+                ChessPiece MovingPiece = StartTile.GetHeldPiece();
+                ChessPiece TargetPiece = EndTile.GetHeldPiece();
                 
                 boolean bValidMove = StartTile.Move( PlayerId, EndTile );
                 
                 // Check for promotion
                 // Check for check or checkmate
                 
-                // Check end game conditions
-                if( bValidMove && TargetPiece != null && TargetPiece.GetName().equals( "King" ) )
+                if( bValidMove )
                 {
-                    if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
+                    // Alternate pieces and remove
+                    if( MovingPiece.GetOwner() == ChessState.PieceOwner.Black )
                     {
-                        ChessGame.EndGame( ChessGame.EndGameResults.Player1 );
+                        BlackPieces.remove( MovingPiece );
+                        BlackPieces.add( EndTile.GetHeldPiece() );
                     }
                     else
                     {
-                        ChessGame.EndGame( ChessGame.EndGameResults.Player2 );
+                        WhitePieces.remove( MovingPiece );
+                        WhitePieces.add( EndTile.GetHeldPiece() );
+                    }
+                    
+                    // Remove pieces from lists
+                    if( TargetPiece != null )
+                    {
+                        if( TargetPiece.GetOwner() == ChessState.PieceOwner.Black )
+                        {
+                            BlackPieces.remove( TargetPiece );
+                        }
+                        else
+                        {
+                            WhitePieces.remove( TargetPiece );
+                        }
+                    }
+                    
+                    // Check end game conditions
+                    if( TargetPiece != null )
+                    {
+                        if( TargetPiece.GetName().equals( "King" ) )
+                        {
+                            if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
+                            {
+                                ChessGame.EndGame( ChessGame.EndGameResults.Player1 );
+                            }
+                            else
+                            {
+                                ChessGame.EndGame( ChessGame.EndGameResults.Player2 );
+                            }
+                        }
+                        if( BlackPieces.isEmpty() )
+                        {
+                            ChessGame.EndGame( ChessGame.EndGameResults.Player1 );
+                        }
+                        if( WhitePieces.isEmpty() )
+                        {
+                            ChessGame.EndGame( ChessGame.EndGameResults.Player2 );
+                        }
                     }
                 }
                 return bValidMove;
@@ -177,7 +232,7 @@ public class ChessGuelphGryphonRules extends ChessRules
     @Override
     public ChessState InitializeGameState( ChessView Display )
     {
-        ChessBoard Board = new ChessVanillaBoard();
+        ChessBoard Board = new ChessGuelphGryphonBoard();
         ChessState State = new ChessState( Display, Board );
         Display.update( Board, 1 );
         return State;

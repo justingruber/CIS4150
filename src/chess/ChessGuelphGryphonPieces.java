@@ -14,18 +14,77 @@ import chess.models.ChessTile;
  *
  * @author King
  */
-public class ChessVanillaPieces {
+public class ChessGuelphGryphonPieces {
     
     private final static String Path = "views\\graphical\\Images\\";
     
-    public static class ChessVanillaPawnPiece extends ChessPiece
+    private static abstract class ChessGuelphGryphonMovement extends ChessMovement
     {
-        public ChessVanillaPawnPiece( ChessState.PieceOwner Owner ) {
+        @Override
+        public boolean MovePiece( ChessTile Start, ChessTile End )
+    {
+        // Check invalid paramters
+        if( Start.GetHeldPiece() == null || End == null || Start == End )
+        {
+            return false;
+        }
+        
+        if( CanMove( Start, End ) )
+        {
+            ChessPiece MovingPiece = Start.GetHeldPiece();
+            ChessPiece TargetPiece = End.GetHeldPiece();
+            
+            // Perform successful move
+            if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
+            {
+                Start.SetHeldPiece( null );
+                
+                ChessPiece NewPiece;
+                switch( MovingPiece.GetName() )
+                {
+                    case( "Pawn" ):
+                        NewPiece = new ChessGuelphGryphonKnightPiece( MovingPiece.GetOwner() );
+                        break;
+                    case( "Knight" ):
+                        NewPiece = new ChessGuelphGryphonBishopPiece( MovingPiece.GetOwner() );
+                        break;
+                    case( "Bishop" ):
+                        NewPiece = new ChessGuelphGryphonRookPiece( MovingPiece.GetOwner() );
+                        break;
+                    case( "Rook" ):
+                        NewPiece = new ChessGuelphGryphonQueenPiece( MovingPiece.GetOwner() );
+                        break;
+                    case( "Queen" ):
+                        NewPiece = new ChessGuelphGryphonKingPiece( MovingPiece.GetOwner() );
+                        break;
+                    case( "King" ):
+                        NewPiece = new ChessGuelphGryphonPawnPiece( MovingPiece.GetOwner() );
+                        break;
+                    default:
+                        NewPiece = new ChessGuelphGryphonPawnPiece( MovingPiece.GetOwner() );
+                        break;
+                }
+                
+                End.SetHeldPiece( NewPiece );
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    }
+    
+    public static class ChessGuelphGryphonPawnPiece extends ChessPiece
+    {
+        public ChessGuelphGryphonPawnPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Pawn";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "Pawn.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )
@@ -74,14 +133,14 @@ public class ChessVanillaPieces {
         }
     }
     
-    public static class ChessVanillaRookPiece extends ChessPiece
+    public static class ChessGuelphGryphonRookPiece extends ChessPiece
     {
-        public ChessVanillaRookPiece( ChessState.PieceOwner Owner ) {
+        public ChessGuelphGryphonRookPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Rook";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "Rook.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )
@@ -104,14 +163,14 @@ public class ChessVanillaPieces {
         }
     }
     
-    public static class ChessVanillaKnightPiece extends ChessPiece
+    public static class ChessGuelphGryphonKnightPiece extends ChessPiece
     {
-        public ChessVanillaKnightPiece( ChessState.PieceOwner Owner ) {
+        public ChessGuelphGryphonKnightPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Knight";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "Knight.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )
@@ -130,14 +189,14 @@ public class ChessVanillaPieces {
         }
     }
     
-    public static class ChessVanillaBishopPiece extends ChessPiece
+    public static class ChessGuelphGryphonBishopPiece extends ChessPiece
     {
-        public ChessVanillaBishopPiece( ChessState.PieceOwner Owner ) {
+        public ChessGuelphGryphonBishopPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Bishop";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "Bishop.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )
@@ -157,14 +216,14 @@ public class ChessVanillaPieces {
         }
     }
     
-    public static class ChessVanillaQueenPiece extends ChessPiece
+    public static class ChessGuelphGryphonQueenPiece extends ChessPiece
     {
-        public ChessVanillaQueenPiece( ChessState.PieceOwner Owner ) {
+        public ChessGuelphGryphonQueenPiece( ChessState.PieceOwner Owner ) {
             this.Name = "Queen";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "Queen.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )
@@ -190,14 +249,14 @@ public class ChessVanillaPieces {
         }
     }
     
-    public static class ChessVanillaKingPiece extends ChessPiece
+    public static class ChessGuelphGryphonKingPiece extends ChessPiece
     {
-        public ChessVanillaKingPiece( ChessState.PieceOwner Owner ) {
+        public ChessGuelphGryphonKingPiece( ChessState.PieceOwner Owner ) {
             this.Name = "King";
             this.Owner = Owner;
             this.ImagePath = Path;
             this.ImageFile = "King.png";
-            this.Movement = new ChessMovement()
+            this.Movement = new ChessGuelphGryphonMovement()
             {
                 @Override
                 public boolean CanMove( ChessTile Start, ChessTile End )

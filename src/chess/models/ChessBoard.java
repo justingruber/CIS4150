@@ -4,6 +4,8 @@
  */
 package chess.models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author justin
@@ -13,6 +15,9 @@ public abstract class ChessBoard {
 // The 2D array implies that the board is a rectangle/square variant
     protected int BoardSize[] = { 0, 0 };
     protected ChessTile Board[][];
+    
+    protected ArrayList<ChessPiece> WhitePieces;
+    protected ArrayList<ChessPiece> BlackPieces;
     
     protected abstract int[] ParsePosition( String ToParse );
     public abstract boolean Move( int PlayerId, String Start, String End );
