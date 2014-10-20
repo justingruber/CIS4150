@@ -15,388 +15,6 @@ import chess.views.ChessView;
  */
 public class ChessVanillaRules extends ChessRules 
 {
-    private final static String Path = "views\\graphical\\Images\\";
-    
-    private class ChessPawnPiece extends ChessPiece
-    {
-        private ChessPawnPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "Pawn";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "Pawn.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                    int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Math.abs( Start.GetPosition()[0] - End.GetPosition()[0] );
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // Note: In this set of rules, the black pieces are at the top of the board
-                    if( MovingPiece.GetOwner() == ChessState.PieceOwner.White )
-                    {
-                        ForwardMove = -ForwardMove;
-                    }
-                    
-                    // Initial Double Move
-                    if( ForwardMove == 2 && SideMove == 0 )
-                    {
-                        System.out.printf("Initial move: %d %d", ForwardMove, SideMove );
-                        if( Start.GetHeldPiece().HasMoved() || TargetPiece != null )
-                        {
-                            return false;
-                        }
-                    }
-                    
-                    // Attacking Move
-                    else if( ForwardMove == 1 && SideMove == 1 )
-                    {
-                        System.out.printf("Attack move: %d %d", ForwardMove, SideMove );
-                        if( TargetPiece == null || TargetPiece.GetOwner() == MovingPiece.GetOwner() )
-                        {
-                            return false;
-                        }
-                    }
-                    
-                    // Standard Move
-                    else if( ForwardMove == 1 && SideMove == 0 )
-                    {
-                        System.out.printf("Standard move: %d %d", ForwardMove, SideMove );
-                        if( TargetPiece != null )
-                        {
-                            return false;
-                        }
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        System.out.printf("Invalid move: %d %d", ForwardMove, SideMove );
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            };
-        }
-    }
-    
-    private class ChessRookPiece extends ChessPiece
-    {
-        private ChessRookPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "Rook";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "Rook.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                    int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // King Switch
-                    /* To Implement */
-                    
-                    // Standard Move
-                    /* else */ if( ForwardMove == 0 || SideMove == 0 )
-                    {
-                        // Continue
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            };
-        }
-    }
-    
-    private class ChessKnightPiece extends ChessPiece
-    {
-        private ChessKnightPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "Knight";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "Knight.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                    int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // Standard Move
-                    if( Math.abs( ForwardMove ) == 2 && Math.abs( SideMove ) == 1 )
-                    {
-                        // Continue
-                    }
-                    else if( Math.abs( ForwardMove ) == 1 && Math.abs( SideMove ) == 2 )
-                    {
-                        // Continue
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            };
-        }
-    }
-    
-    private class ChessBishopPiece extends ChessPiece
-    {
-        private ChessBishopPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "Bishop";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "Bishop.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                    int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // Standard Move
-                    if( ForwardMove == SideMove )
-                    {
-                        // Continue
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            };
-        }
-    }
-    
-    private class ChessQueenPiece extends ChessPiece
-    {
-        private ChessQueenPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "Queen";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "Queen.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                    int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // Forward and Side Movement
-                    if( ForwardMove == 0 || SideMove == 0 )
-                    {
-                        // Continue
-                    }
-                    
-                    // Diagonal Movement
-                    else if( ForwardMove == SideMove )
-                    {
-                        // Continue
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            };
-        }
-    }
-    
-    private class ChessKingPiece extends ChessPiece
-    {
-        private ChessKingPiece( ChessState.PieceOwner Owner ) {
-            this.Name = "King";
-            this.Owner = Owner;
-            this.ImagePath = Path;
-            this.ImageFile = "King.png";
-            this.Movement = new ChessMovement()
-            {
-                @Override
-                public boolean MovePiece( ChessTile Start, ChessTile End )
-                {
-                  int ForwardMove;
-                    int SideMove;
-                    ChessPiece MovingPiece;
-                    ChessPiece TargetPiece;
-                    
-                    // Check invalid paramters
-                    if( Start.GetHeldPiece() == null || End == null || Start == End )
-                    {
-                        return false;
-                    }
-                    
-                    ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
-                    MovingPiece = Start.GetHeldPiece();
-                    TargetPiece = End.GetHeldPiece();
-                    
-                    // Standard Move
-                    if( ForwardMove <= 1 && SideMove <= 1 )
-                    {
-                        // Continue
-                    }
-                    
-                    // All other moves are invalid
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    // Perform successful move
-                    if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
-                    {
-                        Start.SetHeldPiece( null );
-                        End.SetHeldPiece( MovingPiece );
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }  
-                }
-            };
-        }
-    }
-    
     private class ChessVanillaBoard extends ChessBoard
     {
         private ChessVanillaBoard()
@@ -428,21 +46,21 @@ public class ChessVanillaRules extends ChessRules
                         {
                             case( 0 ):
                             case( 7 ):
-                                Piece = new ChessRookPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessRookPiece( Owner );
                                 break;
                             case( 1 ):
                             case( 6 ):
-                                Piece = new ChessKnightPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessKnightPiece( Owner );
                                 break;
                             case( 2 ):
                             case( 5 ):
-                                Piece = new ChessBishopPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessBishopPiece( Owner );
                                 break;
                             case( 3 ):
-                                Piece = new ChessQueenPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessQueenPiece( Owner );
                                 break;
                             case( 4 ):
-                                Piece = new ChessKingPiece( Owner );
+                                Piece = new ChessVanillaPieces.ChessKingPiece( Owner );
                                 break;
                         }
                     }
@@ -458,10 +76,10 @@ public class ChessVanillaRules extends ChessRules
                             Owner = ChessState.PieceOwner.Black;
                         }
                         
-                        Piece = new ChessPawnPiece( Owner );
+                        Piece = new ChessVanillaPieces.ChessPawnPiece( Owner );
                     }
                     
-                    this.Board[i][j] = new ChessTile( i, j, Piece );
+                    this.Board[i][j] = new ChessTile( i, j, this, Piece );
                 }
             }            
         }
@@ -502,20 +120,13 @@ public class ChessVanillaRules extends ChessRules
                 }
                 Position[1] = Integer.parseInt( ToParse.substring( 1 ) );
 
-                System.out.printf("%s: %d %d\n", ToParse, Position[0], Position[1]);
                 return Position;
             
             }
             Position[0] = -1;
             Position[1] = -1;
             return Position;
-        }
-        
-        @Override
-        public ChessPiece getPieceAtPosition(int X, int Y) 
-        {
-            return Board[X][Y].GetHeldPiece();
-        }
+        }        
 
         @Override
         public boolean Move( int PlayerId, String Start, String End ) 
@@ -558,5 +169,4 @@ public class ChessVanillaRules extends ChessRules
         Display.update( Board, 1 );
         return State;
     }
-    
 }

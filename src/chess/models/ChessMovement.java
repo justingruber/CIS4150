@@ -4,21 +4,41 @@
  * and open the template in the editor.
  */
 package chess.models;
+import chess.models.ChessBoard;
 
 /**
  *
  * @author King
  */
-public interface ChessMovement {
+public abstract class ChessMovement {
     
-    /**
-     * Move the owning piece.
-     * NOTE: Consider changing Start parameter to take the ChessPiece instead.
-     * 
-     * @param Start the initial position of the piece
-     * @param End the final position of the piece
-     * @return true if the move was successful, else false
-     */
-    public abstract boolean MovePiece( ChessTile Start, ChessTile End );
+    public abstract boolean CanMove( ChessTile Start, ChessTile End );
+    
+    public boolean MovePiece( ChessTile Start, ChessTile End )
+    {
+        // Check invalid paramters
+        if( Start.GetHeldPiece() == null || End == null || Start == End )
+        {
+            return false;
+        }
+        
+        if( CanMove( Start, End ) )
+        {
+            ChessPiece MovingPiece = Start.GetHeldPiece();
+            ChessPiece TargetPiece = End.GetHeldPiece();
+            // Perform successful move
+            if( TargetPiece == null || TargetPiece.GetOwner() != MovingPiece.GetOwner() )
+            {
+                Start.SetHeldPiece( null );
+                End.SetHeldPiece( MovingPiece );
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
     
 }

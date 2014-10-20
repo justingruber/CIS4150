@@ -12,23 +12,24 @@ package chess.models;
 public class ChessTile 
 {
     final private int Position[] = { 0, 0 };
+    final private ChessBoard Board;
     private ChessPiece HeldPiece = null;
     
-    public ChessTile( int X, int Y ) //throws Exception
+    public ChessTile( int X, int Y, ChessBoard Board )
     {
         if( X < 0 || Y < 0 )
         {
             System.out.printf( "An error occured while constructing the game board\n" );
-            //throw new Exception( "Position values must be greater than zero" );
         }
         Position[0] = X;
         Position[1] = Y;
         this.HeldPiece = null;
+        this.Board = Board;
     }
     
-    public ChessTile( int X, int Y, ChessPiece Piece ) //throws Exception
+    public ChessTile( int X, int Y, ChessBoard Board, ChessPiece Piece )
     {
-        this( X, Y );
+        this( X, Y, Board );
         this.HeldPiece = Piece;
     }
     
@@ -46,6 +47,11 @@ public class ChessTile
     {
         HeldPiece = Piece;
         return true;
+    }
+    
+    public boolean HasClearPath( ChessTile End )
+    {
+        return Board.HasClearPath( this, End );
     }
     
     public boolean Move( int PlayerId, ChessTile End )
