@@ -119,9 +119,8 @@ public class ChessVanillaRules extends ChessRules
                         break;
                 }
                 Position[1] = Integer.parseInt( ToParse.substring( 1 ) );
-
+                
                 return Position;
-            
             }
             Position[0] = -1;
             Position[1] = -1;
