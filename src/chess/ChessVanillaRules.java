@@ -41,12 +41,12 @@ public class ChessVanillaRules extends ChessRules
                     }
                     
                     ForwardMove = Start.GetPosition()[1] - End.GetPosition()[1];
-                    SideMove = Start.GetPosition()[0] - End.GetPosition()[0];
+                    SideMove = Math.abs( Start.GetPosition()[0] - End.GetPosition()[0] );
                     MovingPiece = Start.GetHeldPiece();
                     TargetPiece = End.GetHeldPiece();
                     
                     // Note: In this set of rules, the black pieces are at the top of the board
-                    if( MovingPiece.GetOwner() == ChessState.PieceOwner.Black )
+                    if( MovingPiece.GetOwner() == ChessState.PieceOwner.White )
                     {
                         ForwardMove = -ForwardMove;
                     }
@@ -54,7 +54,8 @@ public class ChessVanillaRules extends ChessRules
                     // Initial Double Move
                     if( ForwardMove == 2 && SideMove == 0 )
                     {
-                        if( !Start.GetHeldPiece().HasMoved() || TargetPiece != null )
+                        System.out.printf("Initial move: %d %d", ForwardMove, SideMove );
+                        if( Start.GetHeldPiece().HasMoved() || TargetPiece != null )
                         {
                             return false;
                         }
@@ -63,6 +64,7 @@ public class ChessVanillaRules extends ChessRules
                     // Attacking Move
                     else if( ForwardMove == 1 && SideMove == 1 )
                     {
+                        System.out.printf("Attack move: %d %d", ForwardMove, SideMove );
                         if( TargetPiece == null || TargetPiece.GetOwner() == MovingPiece.GetOwner() )
                         {
                             return false;
@@ -72,6 +74,7 @@ public class ChessVanillaRules extends ChessRules
                     // Standard Move
                     else if( ForwardMove == 1 && SideMove == 0 )
                     {
+                        System.out.printf("Standard move: %d %d", ForwardMove, SideMove );
                         if( TargetPiece != null )
                         {
                             return false;
@@ -81,6 +84,7 @@ public class ChessVanillaRules extends ChessRules
                     // All other moves are invalid
                     else
                     {
+                        System.out.printf("Invalid move: %d %d", ForwardMove, SideMove );
                         return false;
                     }
                     
@@ -408,10 +412,10 @@ public class ChessVanillaRules extends ChessRules
                 {
                     ChessPiece Piece = null;
                     
-                    if( i == 0 || i == 7)
+                    if( j == 0 || j == 7)
                     {
                         ChessState.PieceOwner Owner;
-                        if( i == 0 )
+                        if( j == 0 )
                         {
                             Owner = ChessState.PieceOwner.White;
                         }
@@ -420,7 +424,7 @@ public class ChessVanillaRules extends ChessRules
                             Owner = ChessState.PieceOwner.Black;
                         }
                         
-                        switch( j )
+                        switch( i )
                         {
                             case( 0 ):
                             case( 7 ):
@@ -442,10 +446,10 @@ public class ChessVanillaRules extends ChessRules
                                 break;
                         }
                     }
-                    else if( i == 1 || i == 6 )
+                    else if( j == 1 || j == 6 )
                     {
                         ChessState.PieceOwner Owner;
-                        if( i == 1 )
+                        if( j == 1 )
                         {
                             Owner = ChessState.PieceOwner.White;
                         }
@@ -472,32 +476,33 @@ public class ChessVanillaRules extends ChessRules
                 switch( ToParse.toUpperCase().charAt( 0 ) )
                 {
                     case('A'):
-                        Position[1] = 0;
+                        Position[0] = 0;
                         break;
                     case('B'):
-                        Position[1] = 1;
+                        Position[0] = 1;
                         break;
                     case('C'):
-                        Position[1] = 2;
+                        Position[0] = 2;
                         break;
                     case('D'):
-                        Position[1] = 3;
+                        Position[0] = 3;
                         break;
                     case('E'):
-                        Position[1] = 4;
+                        Position[0] = 4;
                         break;
                     case('F'):
-                        Position[1] = 5;
+                        Position[0] = 5;
                         break;
                     case('G'):
-                        Position[1] = 6;
+                        Position[0] = 6;
                         break;
                     case('H'):
-                        Position[1] = 7;
+                        Position[0] = 7;
                         break;
                 }
-                Position[0] = Integer.parseInt( ToParse.substring( 1 ) );
+                Position[1] = Integer.parseInt( ToParse.substring( 1 ) );
 
+                System.out.printf("%s: %d %d\n", ToParse, Position[0], Position[1]);
                 return Position;
             
             }
@@ -513,7 +518,7 @@ public class ChessVanillaRules extends ChessRules
         }
 
         @Override
-        public boolean Move(String Start, String End) 
+        public boolean Move( int PlayerId, String Start, String End ) 
         {
             int StartPosition[];
             int EndPosition[];
@@ -524,7 +529,7 @@ public class ChessVanillaRules extends ChessRules
             if( StartPosition[0] >= 0 && EndPosition[0] >= 0 )
             {
                 ChessPiece TargetPiece = Board[EndPosition[0]][EndPosition[1]].GetHeldPiece();
-                boolean bValidMove = Board[StartPosition[0]][StartPosition[1]].Move( Board[EndPosition[0]][EndPosition[1]] );
+                boolean bValidMove = Board[StartPosition[0]][StartPosition[1]].Move( PlayerId, Board[EndPosition[0]][EndPosition[1]] );
                 if( bValidMove && TargetPiece != null && TargetPiece.GetName().equals( "King" ) )
                 {
                     if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )

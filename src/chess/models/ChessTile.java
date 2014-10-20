@@ -44,28 +44,20 @@ public class ChessTile
     
     public boolean SetHeldPiece( ChessPiece Piece )
     {
-        if( HeldPiece == null )
-        {
-            HeldPiece = Piece;
-            return true;
-        }
-        else if( Piece == null )
-        {
-            HeldPiece = null;
-            return true;
-        }
-        return false;
+        HeldPiece = Piece;
+        return true;
     }
     
-    public boolean Move( ChessTile End )
+    public boolean Move( int PlayerId, ChessTile End )
     {
         if( HeldPiece != null && End != null )
         {
-            return HeldPiece.Move( this, End );
+            if( ( PlayerId == 1 && HeldPiece.GetOwner() == ChessState.PieceOwner.White )
+                || ( PlayerId == 2 && HeldPiece.GetOwner() == ChessState.PieceOwner.Black ) )
+            {
+                return HeldPiece.Move( this, End );
+            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }

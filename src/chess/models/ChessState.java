@@ -29,7 +29,7 @@ public class ChessState {
     
     public boolean Move( int PlayerID, String Start, String End )
     {
-        boolean bValidMove = Board.Move( Start, End );
+        boolean bValidMove = Board.Move( PlayerID, Start, End );
         if( bValidMove )
         {
             Display.update( this.Board, ((PlayerID % 2) + 1) );

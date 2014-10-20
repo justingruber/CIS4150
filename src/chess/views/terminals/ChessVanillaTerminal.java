@@ -48,13 +48,13 @@ public class ChessVanillaTerminal extends ChessView
         
         ChessBoard board = currBoard;
         
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < board.GetBoardSize()[1]; i++) {
             System.out.print (i + String.valueOf (ChessVanillaTerminal.VERTICAL));
             
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < board.GetBoardSize()[0]; j++) {
                 //System.out.print(i + "," + j);
                 
-                ChessPiece piece = board.getPieceAtPosition (i, j);
+                ChessPiece piece = board.getPieceAtPosition (j, i);
                 String color = " ";
                 String pieceChar = " ";
                 

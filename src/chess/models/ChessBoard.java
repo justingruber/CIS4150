@@ -16,7 +16,7 @@ public abstract class ChessBoard {
     
     public abstract ChessPiece getPieceAtPosition( int X, int Y );
     
-    public abstract boolean Move( String Start, String End );
+    public abstract boolean Move( int PlayerId, String Start, String End );
     
     public int[] GetBoardSize()
     {
