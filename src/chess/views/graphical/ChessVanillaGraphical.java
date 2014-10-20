@@ -200,7 +200,7 @@ public class ChessVanillaGraphical extends ChessView implements MouseListener, M
     
     
     @Override
-    public void update(ChessState state, int playerID)
+    public void update(ChessBoard board, int playerID)
     {
         
     }

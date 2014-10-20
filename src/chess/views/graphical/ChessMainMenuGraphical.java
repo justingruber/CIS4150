@@ -38,10 +38,10 @@ public class ChessMainMenuGraphical extends ChessMainMenuView
         quit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
         
         
-        final Board b = new Board();
-        b.setLocation (0,50);
-        b.setSize (550, 550);
-        frame.add (b);
+//        final Board b = new Board();
+//        b.setLocation (0,50);
+//        b.setSize (550, 550);
+//        frame.add (b);
         
         
         quit.addActionListener (new ActionListener ()
