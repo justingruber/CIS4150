@@ -6,6 +6,7 @@ package chess.controllers;
 import chess.models.*;
 import chess.ChessRules;
 import chess.ChessVanillaRules;
+import chess.ChessDunsanyRules;
 import chess.views.ChessView;
 import chess.views.graphical.*;
 import chess.views.terminals.*;
@@ -53,7 +54,7 @@ public class ChessGame
                 //Rules = new ChessGuelphGryphonRules();
                 break;
             case(3):
-                //Rules = new ChessDunsanyRules();
+                Rules = new ChessDunsanyRules();
                 break;
             default:
                 System.out.println( "An invalid rule set has been selected" );

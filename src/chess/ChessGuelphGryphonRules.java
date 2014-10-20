@@ -6,16 +6,19 @@
 package chess;
 
 import chess.controllers.ChessGame;
-import chess.models.*;
+import chess.models.ChessBoard;
+import chess.models.ChessPiece;
+import chess.models.ChessState;
+import chess.models.ChessTile;
 import chess.views.ChessView;
 
 /**
  *
  * @author King
  */
-public class ChessVanillaRules extends ChessRules 
+public class ChessGuelphGryphonRules extends ChessRules
 {
-    
+
     private class ChessVanillaBoard extends ChessBoard
     {
         private ChessVanillaBoard()

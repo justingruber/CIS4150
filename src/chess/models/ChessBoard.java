@@ -14,6 +14,7 @@ public abstract class ChessBoard {
     protected int BoardSize[] = { 0, 0 };
     protected ChessTile Board[][];
     
+    protected abstract int[] ParsePosition( String ToParse );
     public abstract boolean Move( int PlayerId, String Start, String End );
     
     public ChessPiece getPieceAtPosition(int X, int Y) 

@@ -6,22 +6,30 @@
 package chess;
 
 import chess.controllers.ChessGame;
-import chess.models.*;
+import chess.models.ChessBoard;
+import chess.models.ChessPiece;
+import chess.models.ChessState;
+import chess.models.ChessTile;
 import chess.views.ChessView;
+import java.util.ArrayList;
 
 /**
  *
  * @author King
  */
-public class ChessVanillaRules extends ChessRules 
+public class ChessDunsanyRules extends ChessRules
 {
-    
-    private class ChessVanillaBoard extends ChessBoard
+
+    private class ChessDunsanyBoard extends ChessBoard
     {
-        private ChessVanillaBoard()
+        private ArrayList<ChessPiece> WhitePieces;
+        
+        private ChessDunsanyBoard()
         {
             this.BoardSize[0] = 8;
             this.BoardSize[1] = 8;
+            
+            WhitePieces = new ArrayList<>();
             
             this.Board = new ChessTile[ BoardSize[0] ][ BoardSize [1] ];
         
@@ -31,17 +39,9 @@ public class ChessVanillaRules extends ChessRules
                 {
                     ChessPiece Piece = null;
                     
-                    if( j == 0 || j == 7)
+                    if( j == 7)
                     {
-                        ChessState.PieceOwner Owner;
-                        if( j == 0 )
-                        {
-                            Owner = ChessState.PieceOwner.White;
-                        }
-                        else
-                        {
-                            Owner = ChessState.PieceOwner.Black;
-                        }
+                        ChessState.PieceOwner Owner = ChessState.PieceOwner.Black;
                         
                         switch( i )
                         {
@@ -65,19 +65,20 @@ public class ChessVanillaRules extends ChessRules
                                 break;
                         }
                     }
-                    else if( j == 1 || j == 6 )
+                    else if( j <= 4 || j == 6 )
                     {
                         ChessState.PieceOwner Owner;
-                        if( j == 1 )
-                        {
-                            Owner = ChessState.PieceOwner.White;
-                        }
-                        else
+                        if( j == 6 )
                         {
                             Owner = ChessState.PieceOwner.Black;
                         }
+                        else
+                        {
+                            Owner = ChessState.PieceOwner.White;
+                        }
                         
                         Piece = new ChessVanillaPieces.ChessPawnPiece( Owner );
+                        WhitePieces.add( Piece );
                     }
                     
                     this.Board[i][j] = new ChessTile( i, j, this, Piece );
@@ -147,19 +148,21 @@ public class ChessVanillaRules extends ChessRules
                 
                 boolean bValidMove = StartTile.Move( PlayerId, EndTile );
                 
-                // Check for promotion
-                // Check for check or checkmate
+                if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
+                {
+                    WhitePieces.remove( TargetPiece );
+                }
                 
                 // Check end game conditions
-                if( bValidMove && TargetPiece != null && TargetPiece.GetName().equals( "King" ) )
+                if( bValidMove && TargetPiece != null )
                 {
-                    if( TargetPiece.GetOwner() == ChessState.PieceOwner.White )
-                    {
-                        ChessGame.EndGame( ChessGame.EndGameResults.Player1 );
-                    }
-                    else
+                    if( TargetPiece.GetName().equals( "King" ) && TargetPiece.GetOwner() == ChessState.PieceOwner.Black )
                     {
                         ChessGame.EndGame( ChessGame.EndGameResults.Player2 );
+                    }
+                    else if( WhitePieces.isEmpty() )
+                    {
+                        ChessGame.EndGame( ChessGame.EndGameResults.Player1 );
                     }
                 }
                 return bValidMove;
@@ -174,7 +177,7 @@ public class ChessVanillaRules extends ChessRules
     @Override
     public ChessState InitializeGameState( ChessView Display )
     {
-        ChessBoard Board = new ChessVanillaBoard();
+        ChessBoard Board = new ChessDunsanyBoard();
         ChessState State = new ChessState( Display, Board );
         Display.update( Board, 1 );
         return State;
